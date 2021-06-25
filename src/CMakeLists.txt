@@ -52,12 +52,18 @@ set(SRC
     ${outFiles}
 )
 
+set(LINKER_FLAGS "")
+if(${CMAKE_GENERATOR} MATCHES "Visual Studio*")
+    list(APPEND LINKER_FLAGS "/MANIFEST:NO /NOLOGO")
+endif()
+
 add_library(${PROJECT_NAME} ${SRC})
 
 set(LIB_MOD_DIR ${CMAKE_CURRENT_BINARY_DIR}/mod_files/)
 set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    Fortran_MODULE_DIRECTORY ${LIB_MOD_DIR})
+    Fortran_MODULE_DIRECTORY ${LIB_MOD_DIR}
+    LINK_FLAGS "${LINKER_FLAGS}")
 if(${CMAKE_GENERATOR} MATCHES "Visual Studio*")
   target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${LIB_MOD_DIR}$<CONFIG>>
