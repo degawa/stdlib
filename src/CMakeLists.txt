@@ -13,7 +13,7 @@ set(fppFiles
     stdlib_sorting.fypp
     stdlib_sorting_ord_sort.fypp
     stdlib_sorting_sort.fypp
-    stdlib_sorting_sort_index.fypp 
+    stdlib_sorting_sort_index.fypp
     stdlib_stats.fypp
     stdlib_stats_corr.fypp
     stdlib_stats_cov.fypp
@@ -52,15 +52,29 @@ set(SRC
     ${outFiles}
 )
 
+set(LINKER_FLAGS "")
+if(${CMAKE_GENERATOR} MATCHES "Visual Studio*")
+    list(APPEND LINKER_FLAGS "/MANIFEST:NO /NOLOGO")
+endif()
+
 add_library(${PROJECT_NAME} ${SRC})
 
 set(LIB_MOD_DIR ${CMAKE_CURRENT_BINARY_DIR}/mod_files/)
+set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    Fortran_MODULE_DIRECTORY ${LIB_MOD_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${LIB_MOD_DIR}>
+    Fortran_MODULE_DIRECTORY ${LIB_MOD_DIR}
+    LINK_FLAGS "${LINKER_FLAGS}")
+if(${CMAKE_GENERATOR} MATCHES "Visual Studio*")
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${LIB_MOD_DIR}$<CONFIG>>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}>
-)
+  )
+else()
+  target_include_directories(${PROJECT_NAME} PUBLIC
+      $<BUILD_INTERFACE:${LIB_MOD_DIR}>
+      $<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}>
+  )
+endif()
 
 if(f18errorstop)
   target_sources(${PROJECT_NAME} PRIVATE f18estop.f90)
@@ -76,4 +90,8 @@ install(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )
-install(DIRECTORY ${LIB_MOD_DIR} DESTINATION "${CMAKE_INSTALL_MODULEDIR}")
+if(${CMAKE_GENERATOR} MATCHES "Visual Studio*")
+  install(DIRECTORY ${LIB_MOD_DIR}$<CONFIG>/ DESTINATION "${CMAKE_INSTALL_MODULEDIR}")
+else()
+  install(DIRECTORY ${LIB_MOD_DIR} DESTINATION "${CMAKE_INSTALL_MODULEDIR}")
+endif()

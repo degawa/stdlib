@@ -1,5 +1,7 @@
 macro(ADDTEST name)
     add_executable(test_${name} test_${name}.f90)
+    set_target_properties(test_${name} PROPERTIES
+        LINK_FLAGS "${LINKER_FLAGS}")
     target_link_libraries(test_${name} ${PROJECT_NAME})
     add_test(NAME ${name}
              COMMAND $<TARGET_FILE:test_${name}> ${CMAKE_CURRENT_BINARY_DIR}
