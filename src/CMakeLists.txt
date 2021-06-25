@@ -55,6 +55,7 @@ set(SRC
 add_library(${PROJECT_NAME} ${SRC})
 
 set(LIB_MOD_DIR ${CMAKE_CURRENT_BINARY_DIR}/mod_files/)
+set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 set_target_properties(${PROJECT_NAME} PROPERTIES
     Fortran_MODULE_DIRECTORY ${LIB_MOD_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC
