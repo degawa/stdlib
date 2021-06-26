@@ -166,7 +166,7 @@ Now you have a working version of stdlib you can use for your project.
 To configure the build, run
 
 ```sh
-cmake -B build -G "Visual Studio 15 2017"  -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_GENERATOR_PLATFORM=x64
+cmake -B build -G "Visual Studio 15 2017" -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_GENERATOR_PLATFORM=x64
 ```
 
 `Visual Studio 15 2017` is just an example. `-DCMAKE_GENERATOR_PLATFORM={Win32|x64}` has to be specified to select the target environment properly.
@@ -201,7 +201,7 @@ The modules are copied to `your_project_directory\include`, and the library, `fo
 
 `--config {Debug|Release|MinSizeRel|RelWithDebugInfo}` option is necessary to determine `<Solution Configuration>`.
 
-Install directory can also be specified at configure step with the option `-DCMAKE_INSTALL_PREFIX=path/to/your_project_directory`.  When both options (`--prefix` and `-DCMAKE_INSTALL_PREFIX=`) are omitted, the default install directory, `C:\Program Files\`, is used. An issue related to the permission or the directory name containing a space may occur.
+Install directory can also be specified at configure step with the option `-DCMAKE_INSTALL_PREFIX=path/to/your_project_directory`. When both options (`--prefix` and `-DCMAKE_INSTALL_PREFIX=`) are omitted, the default install directory, `C:\Program Files\`, is used. An issue related to the permission or the directory name containing a space may occur.
 
 ---
 
