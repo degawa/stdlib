@@ -93,6 +93,7 @@ GCC Fortran (MSYS) | 10 | Windows Server 2019 | x86_64
 GCC Fortran (MinGW) | 10 | Windows Server 2019 | x86_64, i686
 Intel oneAPI classic | 2021.1 | Ubuntu 20.04 | x86_64
 Intel oneAPI classic | 2021.1 | MacOS Catalina 10.15 | x86_64
+Intel OneAPI classic | 2021.1 | Windows 10 | x86_64
 
 The following combinations are known to work, but they are not tested in the CI:
 
@@ -160,6 +161,49 @@ cmake --install build
 
 Now you have a working version of stdlib you can use for your project.
 
+---
+#### Using Intel Fortran and Visual Studio on Windows
+To configure the build, run
+
+```sh
+cmake -B build -G "Visual Studio 15 2017"  -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_GENERATOR_PLATFORM=x64
+```
+
+`Visual Studio 15 2017` is just an example. `-DCMAKE_GENERATOR_PLATFORM={Win32|x64}` has to be specified to select the target environment properly.
+Other options including `-DCMAKE_MAXIMUM_RANK` and `-DBUILD_SHARED_LIBS` are, of course, be specified.
+
+To build the library, run
+
+```sh
+cmake --build build --config Release
+```
+
+Specifying the option `--config {Debug|Release|MinSizeRel|RelWithDebugInfo}` is recommended to select the solution configuration.
+
+The libray `fortran_stdlib.lib` is created in `build/src/<Solution Configuration>` and module files are created in `build/src/mod_files/<Solution Configuration>`. When you choose `--config Release`, `<Solution Configuration>` is replased to `Release`.
+
+To copy created the modules and the library, run
+
+```sh
+cmake --install build --config Release --prefix path/to/your_project_directory
+```
+
+The modules are copied to `your_project_directory\include` and the library, `fortran_stdlib.lib`, is copied to `your_project_directory\lib`.
+
+`--config {Debug|Release|MinSizeRel|RelWithDebugInfo}` option is necessary to determine `<Solution Configuration>`.
+
+To test built library, run the test suite in a different way from it mentioned above:
+
+```sh
+cd build
+ctest . -C Release
+```
+
+`Release` is the solution configuration.
+
+Install directory can also be specified at configure with the option `-DCMAKE_INSTALL_PREFIX=path/to/your_project_directory`.  When the both options (`--prefix` and `-DCMAKE_INSTALL_PREFIX=`) are omitted, the default install directory , `C:\Program Files\`, is used. A issue related to the permission or the directory name containing a space may occur.
+
+---
 
 ### Build with make
 
