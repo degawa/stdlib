@@ -93,7 +93,7 @@ GCC Fortran (MSYS) | 10 | Windows Server 2019 | x86_64
 GCC Fortran (MinGW) | 10 | Windows Server 2019 | x86_64, i686
 Intel oneAPI classic | 2021.1 | Ubuntu 20.04 | x86_64
 Intel oneAPI classic | 2021.1 | MacOS Catalina 10.15 | x86_64
-Intel OneAPI classic | 2021.1 | Windows 10 | x86_64
+Intel oneAPI classic | 2021.1 | Windows 10 | x86_64
 
 The following combinations are known to work, but they are not tested in the CI:
 
