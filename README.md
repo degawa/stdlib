@@ -170,7 +170,7 @@ cmake -B build -G "Visual Studio 15 2017"  -DCMAKE_Fortran_COMPILER=ifort -DCMAK
 ```
 
 `Visual Studio 15 2017` is just an example. `-DCMAKE_GENERATOR_PLATFORM={Win32|x64}` has to be specified to select the target environment properly.
-Other options including `-DCMAKE_MAXIMUM_RANK` and `-DBUILD_SHARED_LIBS` are, of course, be specified.
+Other options such as `-DCMAKE_MAXIMUM_RANK` and `-DBUILD_SHARED_LIBS` can, of course, be specified.
 
 To build the library, run
 
@@ -180,19 +180,9 @@ cmake --build build --config Release
 
 Specifying the option `--config {Debug|Release|MinSizeRel|RelWithDebugInfo}` is recommended to select the solution configuration.
 
-The libray `fortran_stdlib.lib` is created in `build/src/<Solution Configuration>` and module files are created in `build/src/mod_files/<Solution Configuration>`. When you choose `--config Release`, `<Solution Configuration>` is replased to `Release`.
+The library `fortran_stdlib.lib` is created in `build/src/<Solution Configuration>`, and module files are created in `build/src/mod_files/<Solution Configuration>`. When you choose `--config Release`, `<Solution Configuration>` is replaced to `Release`.
 
-To copy created the modules and the library, run
-
-```sh
-cmake --install build --config Release --prefix path/to/your_project_directory
-```
-
-The modules are copied to `your_project_directory\include` and the library, `fortran_stdlib.lib`, is copied to `your_project_directory\lib`.
-
-`--config {Debug|Release|MinSizeRel|RelWithDebugInfo}` option is necessary to determine `<Solution Configuration>`.
-
-To test built library, run the test suite in a different way from it mentioned above:
+To test the built library, run the test suite in a different way from it mentioned above:
 
 ```sh
 cd build
@@ -201,7 +191,17 @@ ctest . -C Release
 
 `Release` is the solution configuration.
 
-Install directory can also be specified at configure with the option `-DCMAKE_INSTALL_PREFIX=path/to/your_project_directory`.  When the both options (`--prefix` and `-DCMAKE_INSTALL_PREFIX=`) are omitted, the default install directory , `C:\Program Files\`, is used. A issue related to the permission or the directory name containing a space may occur.
+To copy the built modules and library, run
+
+```sh
+cmake --install build --config Release --prefix path/to/your_project_directory
+```
+
+The modules are copied to `your_project_directory\include`, and the library, `fortran_stdlib.lib`, is copied to `your_project_directory\lib`.
+
+`--config {Debug|Release|MinSizeRel|RelWithDebugInfo}` option is necessary to determine `<Solution Configuration>`.
+
+Install directory can also be specified at configure step with the option `-DCMAKE_INSTALL_PREFIX=path/to/your_project_directory`.  When both options (`--prefix` and `-DCMAKE_INSTALL_PREFIX=`) are omitted, the default install directory, `C:\Program Files\`, is used. An issue related to the permission or the directory name containing a space may occur.
 
 ---
 
