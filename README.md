@@ -203,6 +203,10 @@ The modules are copied to `your_project_directory\include`, and the library, `fo
 
 Install directory can also be specified at configure step with the option `-DCMAKE_INSTALL_PREFIX=path/to/your_project_directory`. When both options (`--prefix` and `-DCMAKE_INSTALL_PREFIX=`) are omitted, the default install directory, `C:\Program Files\`, is used. An issue related to the permission or the directory name containing a space may occur.
 
+##### Warning
+When `CMAKE_MAXIMUM_RANK` is set to 15, it takes more than 2 hours to build with 3 parallel processes.
+If the purpose of the build is to check the procedure of build and link, it is highly recommended to specify `-DCMAKE_MAXIMUM_RANK=4` or `-DCMAKE_MAXIMUM_RANK=7`.
+
 ---
 
 ### Build with make
