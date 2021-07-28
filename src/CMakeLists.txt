@@ -84,6 +84,12 @@ endif()
 
 add_subdirectory(tests)
 
+if(${${PROJECT_NAME}_ENABLE_INSTALL_SUBDIR})
+    set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}/${COMPILER_ID})
+    set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_MODULEDIR}/${COMPILER_ID})
+    message("**A subdirectory ${COMPILER_ID} is added to the install prefix**")
+endif()
+
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}-targets
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
