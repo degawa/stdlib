@@ -9,6 +9,7 @@ set(fppFiles
     stdlib_io.fypp
     stdlib_linalg.fypp
     stdlib_linalg_diag.fypp
+    stdlib_linalg_outer_product.fypp
     stdlib_optval.fypp
     stdlib_sorting.fypp
     stdlib_sorting_ord_sort.fypp
@@ -18,6 +19,7 @@ set(fppFiles
     stdlib_stats_corr.fypp
     stdlib_stats_cov.fypp
     stdlib_stats_mean.fypp
+    stdlib_stats_median.fypp
     stdlib_stats_moment.fypp
     stdlib_stats_moment_all.fypp
     stdlib_stats_moment_mask.fypp
@@ -28,6 +30,9 @@ set(fppFiles
     stdlib_quadrature_simps.fypp
     stdlib_stats_distribution_PRNG.fypp
     stdlib_math.fypp
+    stdlib_math_linspace.fypp
+    stdlib_math_logspace.fypp
+    stdlib_math_arange.fypp
     stdlib_string_type.fypp
 )
 
@@ -49,6 +54,9 @@ set(SRC
     stdlib_logger.f90
     stdlib_strings.f90
     stdlib_system.F90
+    stdlib_specialfunctions.f90
+    stdlib_specialfunctions_legendre.f90
+    stdlib_quadrature_gauss.f90
     ${outFiles}
 )
 

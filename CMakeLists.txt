@@ -32,8 +32,8 @@ if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   endif()
   add_compile_options(-std=f2018)
   set(COMPILER_ID gnu)
-elseif(CMAKE_Fortran_COMPILER_ID STREQUAL Intel)
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "^Intel")
+  if(WIN32)
     add_compile_options(/warn:declarations,general,usage,interfaces,unused)
     add_compile_options(/MP:3)
     if(CMAKE_Fortran_COMPILER_VERSION VERSION_LESS 19.0)
@@ -60,12 +60,12 @@ OPTION(${PROJECT_NAME}_ENABLE_INSTALL_SUBDIR "Add compiler ID as a subdirectory 
 # --- compiler feature checks
 include(CheckFortranSourceCompiles)
 include(CheckFortranSourceRuns)
-check_fortran_source_runs("i=0; error stop i; end" f18errorstop SRC_EXT f90)
+check_fortran_source_runs("i=0; error stop i; end" f18errorstop)
 check_fortran_source_compiles("real, allocatable :: array(:, :, :, :, :, :, :, :, :, :); end" f03rank SRC_EXT f90)
 check_fortran_source_runs("use, intrinsic :: iso_fortran_env, only : real128; real(real128) :: x; x = x+1; end" f03real128)
 
-if(DEFINED CMAKE_MAXIMUM_RANK)
-  set(CMAKE_MAXIMUM_RANK ${CMAKE_MAXIMUM_RANK})
+if(NOT DEFINED CMAKE_MAXIMUM_RANK)
+  set(CMAKE_MAXIMUM_RANK 4 CACHE STRING "Maximum array rank for generated procedures")
 endif()
 
 # --- find preprocessor

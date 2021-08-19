@@ -99,7 +99,7 @@ The following combinations are known to work, but they are not tested in the CI:
 
 Name | Version | Platform | Architecture
 --- | --- | --- | ---
-GCC Fortran (MinGW) | 8.4.0, 9.3.0, 10.2.0 | Windows 10 | x86_64, i686
+GCC Fortran (MinGW) | 9.3.0, 10.2.0, 11.2.0 | Windows 10 | x86_64, i686
 
 We try to test as many available compilers and platforms as possible.
 A list of tested compilers which are currently not working and the respective issue are listed below.
@@ -128,7 +128,8 @@ Important options are
 - `-G Ninja` to use the Ninja backend instead of the default Make backend. Other build backends are available with a similar syntax.
 - `-DCMAKE_INSTALL_PREFIX` is used to provide the install location for the library.
 - `-DCMAKE_MAXIMUM_RANK` the maximum array rank procedures should be generated for.
-  The default is 15 for Fortran 2003 compliant compilers, otherwise 7 for compilers not supporting Fortran 2003 completely yet.
+  The default value is chosen as 4.
+  The maximum is 15 for Fortran 2003 compliant compilers, otherwise 7 for compilers not supporting Fortran 2003 completely yet.
   The minimum required rank to compile this project is 4.
   Compiling with maximum rank 15 can be resource intensive and requires at least 16 GB of memory to allow parallel compilation or 4 GB memory for sequential compilation.
 - `-DBUILD_SHARED_LIBS` set to `on` in case you want link your application dynamically against the standard library (default: `off`).
@@ -136,7 +137,7 @@ Important options are
 For example, to configure a build using the Ninja backend and generating procedures up to rank 7, which is installed to your home directory use
 
 ```sh
-cmake -B build -G Ninja -DCMAKE_MAXIMUM_RANK=7 -DCMAKE_INSTALL_PREFIX=$HOME/.local
+cmake -B build -G Ninja -DCMAKE_MAXIMUM_RANK:String=7 -DCMAKE_INSTALL_PREFIX=$HOME/.local
 ```
 
 To build the standard library run
