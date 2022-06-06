@@ -1,10 +1,22 @@
 cmake_minimum_required(VERSION 3.14.0)
+
+# Include overwrites before setting up the project
+set(CMAKE_USER_MAKE_RULES_OVERRIDE ${CMAKE_CURRENT_SOURCE_DIR}/config/DefaultFlags.cmake)
+
 project(fortran_stdlib
         LANGUAGES Fortran
-        VERSION 0
         DESCRIPTION "Community driven and agreed upon de facto standard library for Fortran"
 )
-enable_testing()
+
+# Read version from file
+file(STRINGS "${PROJECT_SOURCE_DIR}/VERSION" PROJECT_VERSION)
+string(REPLACE "." ";" VERSION_LIST ${PROJECT_VERSION})
+list(GET VERSION_LIST 0 PROJECT_VERSION_MAJOR)
+list(GET VERSION_LIST 1 PROJECT_VERSION_MINOR)
+list(GET VERSION_LIST 2 PROJECT_VERSION_PATCH)
+unset(VERSION_LIST)
+
+include(CTest)
 
 # Follow GNU conventions for installation directories
 include(GNUInstallDirs)
@@ -14,42 +26,9 @@ include(${PROJECT_SOURCE_DIR}/cmake/stdlib.cmake)
 # --- CMake specific configuration and package data export
 add_subdirectory(config)
 
-# --- compiler options
-if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-  if(CMAKE_Fortran_COMPILER_VERSION VERSION_LESS 9.0)
-    message(FATAL_ERROR "GCC Version 9 or newer required")
-  endif()
-  add_compile_options(-fimplicit-none)
-  add_compile_options(-ffree-line-length-132)
-  add_compile_options(-Wall)
-  add_compile_options(-Wextra)
-  add_compile_options(-Wimplicit-procedure)
-  add_compile_options(-Wconversion-extra)
-  # -pedantic-errors triggers a false positive for optional arguments of elemental functions,
-  # see test_optval and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95446
-  if(CMAKE_Fortran_COMPILER_VERSION VERSION_LESS 11.0)
-    add_compile_options(-pedantic-errors)
-  endif()
-  add_compile_options(-std=f2018)
-  set(COMPILER_ID gnu)
-elseif(CMAKE_Fortran_COMPILER_ID MATCHES "^Intel")
-  if(CMAKE_Fortran_COMPILER_VERSION VERSION_LESS 19.0)
-    set(STANDARD_FLAG_KEYWORD "f15")
-  else()
-    set(STANDARD_FLAG_KEYWORD "f18")
-  endif()
-  if(WIN32)
-    add_compile_options(/warn:declarations,general,usage,interfaces,unused)
-    add_compile_options(/MP:3)
-    add_compile_options(/stand:${STANDARD_FLAG_KEYWORD})
-  else() # Linux or macOS(Darwin)
-    add_compile_options(-warn declarations,general,usage,interfaces,unused)
-    add_compile_options(-stand ${STANDARD_FLAG_KEYWORD})
-  endif()
-  set(COMPILER_ID intel)
-elseif(CMAKE_Fortran_COMPILER_ID STREQUAL PGI)
-  add_compile_options(-Mdclchk)
-  set(COMPILER_ID pgi)
+# --- compiler selection
+if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU AND CMAKE_Fortran_COMPILER_VERSION VERSION_LESS 9.0)
+  message(FATAL_ERROR "GCC Version 9 or newer required")
 endif()
 
 OPTION(${PROJECT_NAME}_ENABLE_INSTALL_SUBDIR "Add compiler ID as a subdirectory to the install prefix" OFF)
@@ -68,7 +47,7 @@ endif()
 # --- find preprocessor
 find_program(FYPP fypp)
 if(NOT FYPP)
-  message(FATAL_ERROR "Preprocessor fypp not found!")
+  message(FATAL_ERROR "Preprocessor fypp not found! Please install fypp following the instructions in https://fypp.readthedocs.io/en/stable/fypp.html#installing")
 endif()
 
 add_subdirectory(src)

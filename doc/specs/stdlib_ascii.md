@@ -1,5 +1,5 @@
 ---
-title: ASCII
+title: ascii
 ---
 
 # The `stdlib_ascii` module
@@ -212,42 +212,4 @@ program demo_reverse
     implicit none
     print'(a)', reverse("Hello, World!") ! returns "!dlroW ,olleH"
 end program demo_reverse
-```
-
-### `to_string`
-
-#### Status
-
-Experimental
-
-#### Description
-
-Create a character string representing the value of the provided variable.
-
-#### Syntax
-
-`res = [[stdlib_ascii(module):to_string(interface)]] (string)`
-
-#### Class
-
-Pure function.
-
-#### Argument
-
-`val`: shall be an intrinsic integer or logical type. It is an `intent(in)` argument.
-
-#### Result value
-
-The result is an intrinsic character type.
-
-#### Example
-
-```fortran
-program demo_string_value
-    use stdlib_ascii, only : to_string
-    implicit none
-    print'(a)', to_string(-3) ! returns "-3"
-    print'(a)', to_string(.true.) ! returns "T"
-    print'(a)', to_string(42) ! returns "42"
-end program demo_string_value
 ```
