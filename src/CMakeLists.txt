@@ -94,7 +94,7 @@ set(SRC
 
 set(LINKER_FLAGS "")
 if(${CMAKE_GENERATOR} MATCHES "Visual Studio*")
-    list(APPEND LINKER_FLAGS "/MANIFEST:NO /NOLOGO")
+    list(APPEND LINKER_FLAGS "/INCREMENTAL:NO /NOLOGO /NODEFAULTLIB:\"libifcoremt.lib\" /NODEFAULTLIB:\"LIBCMT\"")
 endif()
 
 add_library(${PROJECT_NAME} ${SRC})
