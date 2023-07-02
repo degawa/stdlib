@@ -1,9 +1,10 @@
-program example_sort_bitsetl
+program example_sort_bitset
   use stdlib_kinds, only: int32
   use stdlib_sorting, only: sort
   use stdlib_bitsets, only: bitset_large
   implicit none
   type(bitset_large), allocatable :: array(:)
+  integer(int32) :: i
 
   array = [bitset_l("0101"), & ! 5
            bitset_l("0100"), & ! 4
@@ -15,19 +16,16 @@ program example_sort_bitsetl
 
   call sort(array)
 
-  block
-    integer(int32) :: i
-    do i = 1, size(array)
-      print *, to_string(array(i))
-      ! 0001
-      ! 0011
-      ! 0100
-      ! 0100
-      ! 0101
-      ! 1001
-      ! 1010
-    end do
-  end block
+  do i = 1, size(array)
+    print *, to_string(array(i))
+    ! 0001
+    ! 0011
+    ! 0100
+    ! 0100
+    ! 0101
+    ! 1001
+    ! 1010
+  end do
 
   deallocate(array)
 contains
@@ -44,4 +42,4 @@ contains
 
       call bitset%to_string(str)
     end function to_string
-end program example_sort_bitsetl
+end program example_sort_bitset
