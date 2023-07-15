@@ -1165,14 +1165,6 @@ module stdlib_bitsets
 !!    end program example_assignment
 !!```
 
-        pure module subroutine assign_large( set1, set2 )
-!! Version: experimental
-!!
-!! Used to define assignment for `bitset_large`.
-            type(bitset_large), intent(inout) :: set1
-            type(bitset_large), intent(in)    :: set2
-        end subroutine assign_large
-
         pure module subroutine assign_logint8_large( self, logical_vector )
 !! Version: experimental
 !!
