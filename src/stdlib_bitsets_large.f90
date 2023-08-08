@@ -89,8 +89,6 @@ contains
 
 
 
-
-
     pure module subroutine assign_logint8_large( self, logical_vector )
 !     Used to define assignment from an array of type logical for bitset_large
         type(bitset_large), intent(out) :: self

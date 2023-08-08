@@ -1166,7 +1166,6 @@ module stdlib_bitsets
 !!```
 
 
-
         pure module subroutine assign_logint8_large( self, logical_vector )
 !! Version: experimental
 !!
