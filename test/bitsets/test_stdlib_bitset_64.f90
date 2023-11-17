@@ -312,6 +312,13 @@ contains
             'initialization of logical(int64) with assignment failed to set the right values.')
         if (allocated(error)) return
 
+        block
+            type(bitset_64) :: set6
+            call check(error, set6 % bits(), 0, &
+                'set6 % bits() returned non-zero value '//&
+                'even though no value was set for set6.')
+            if (allocated(error)) return
+        end block
     end subroutine test_initialization
 
     subroutine test_bitset_inquiry(error)
