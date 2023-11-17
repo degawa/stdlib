@@ -557,6 +557,13 @@ contains
             ' to set the right values > 64 bits.')
         if (allocated(error)) return
 
+        block
+            type(bitset_large) :: set6
+            call check(error, set6%bits(), 0, &
+                'set6 % bits() returned non-zero value '//&
+                'even though no value was set for set6.')
+            if (allocated(error)) return
+        end block
     end subroutine test_initialization
 
     subroutine test_assignment_array(error)
